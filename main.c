@@ -1,11 +1,5 @@
-
-int getContentInsideTag(char *output)
+int getContentInsideTag(char *input,char *output,char *tagName)
 {
-	char message[1000]="BUFF <HEAD> message content </HEAD> BUFF";
-	
-	
-	char *tagName="HEAD";
-	
 	char l_headTag[MAX_TAG_SIZE], l_tailTag[MAX_TAG_SIZE];
 	memset(l_headTag,0,sizeof(l_headTag));
 	memset(l_tailTag,0,sizeof(l_tailTag));
@@ -15,22 +9,24 @@ int getContentInsideTag(char *output)
 	
 
 	
-	char *l_headPos=strstr(message,l_headTag);
+	char *l_headPos=strstr(input,l_headTag);
 	
 	if(NULL == l_headPos)
 		return 0;
 	
 	
-	char *l_tailPos=strstr(message,l_tailTag);
+	char *l_tailPos=strstr(input,l_tailTag);
 	
 	if(NULL == l_tailPos)
 		return 0;	
 	
-	int l_contentLength=(l_tailPos-l_headPos)+strlen(l_tailTag);
+	int l_contentLength=(l_tailPos-l_headPos)-strlen(l_tailTag)+1;
 	
-	strncpy(output,l_headPos,l_contentLength);
+	char *copyPos=l_headPos+strlen(l_headTag);
 	
-	output[l_contentLength]='\0';
+	strncpy(output,copyPos,l_contentLength);
 	
-	printf("OUTPUT %s",output);
+	output[l_contentLength]='\0';	
+	
+	return 1;
 }
